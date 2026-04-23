@@ -1,0 +1,325 @@
+:root {
+  color-scheme: dark;
+
+  /* Qud-native palette (petroleum teal + cream + ANSI accents) */
+  --bg-void: #061716;
+  --bg: #0a2524;
+  --bg-panel: #0d2a28;
+  --bg-elev: #11332f;
+  --bg-glow: #0f4040;
+
+  --line: #1e4645;
+  --line-mid: #2d5a58;
+  --line-on: #4a8a86;
+  --line-glow: #6fb5b0;
+
+  --text: #e4dcc8;
+  --text-soft: #bbb4a0;
+  --text-mute: #7a7466;
+  --text-dim: #515049;
+
+  /* ANSI keyword colors */
+  --rust: #d2643a;
+  --rust-hot: #e8864a;
+  --rust-deep: #8a4617;
+  --rust-bg: rgba(210, 100, 58, 0.08);
+  --red: #e06b5a;
+  --red-deep: #7a1e13;
+  --green: #7dd36a;
+  --cyan: #8bc8d8;
+  --pink: #d8a2c8;
+  --gold: #f3d65a;
+  --sky: #5c8dde;
+
+  --mono:
+    'IBM Plex Mono', 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Layout */
+  --side-w: 240px;
+  --side-w-collapsed: 56px;
+  --header-h: 48px;
+
+  /* Radii */
+  --r-sm: 3px;
+  --r-md: 4px;
+
+  /* Transitions */
+  --t-fast: 0.12s ease;
+  --t-norm: 0.2s ease;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100vh;
+  background: var(--bg-void);
+}
+
+body {
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--text);
+  background:
+    radial-gradient(ellipse at 50% -20%, var(--bg-glow) 0%, transparent 40%),
+    var(--bg);
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ancient patina, very subtle film grain */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(rgba(228, 220, 200, 0.018) 1px, transparent 1.2px),
+    radial-gradient(rgba(228, 220, 200, 0.012) 1px, transparent 1.2px);
+  background-size:
+    3px 3px,
+    5px 5px;
+  background-position:
+    0 0,
+    1.5px 1.5px;
+  z-index: 1;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  background: none;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--line-mid);
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::selection {
+  background: var(--rust);
+  color: var(--bg);
+}
+
+:focus-visible {
+  outline: 1px solid var(--rust);
+  outline-offset: 2px;
+}
+
+/* ANSI entity highlights, reusable utility */
+.ent-location {
+  color: var(--green);
+}
+.ent-cold {
+  color: var(--cyan);
+}
+.ent-danger {
+  color: var(--rust-hot);
+}
+.ent-mutant {
+  color: var(--pink);
+}
+.ent-gold {
+  color: var(--gold);
+}
+.ent-red {
+  color: var(--red);
+}
+.ent-info {
+  color: var(--sky);
+}
+
+/* Prose (markdown-rendered content), fills the main column. No fixed line-length cap. */
+.prose {
+  max-width: none;
+  color: var(--text);
+}
+.prose h1,
+.prose h2,
+.prose h3 {
+  font-weight: 600;
+  color: var(--text);
+  margin-top: 1.6em;
+  margin-bottom: 0.6em;
+}
+.prose h2 {
+  font-size: 15px;
+  color: var(--rust-hot);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding-bottom: 0.4em;
+  border-bottom: 1px dashed var(--line);
+}
+.prose h3 {
+  font-size: 14px;
+  color: var(--text);
+}
+.prose h3::before {
+  content: '▸ ';
+  color: var(--rust);
+}
+.prose p {
+  margin-bottom: 0.8em;
+}
+.prose ul,
+.prose ol {
+  padding-left: 1.6em;
+  margin-bottom: 0.8em;
+}
+.prose li {
+  margin-bottom: 0.3em;
+}
+.prose li::marker {
+  color: var(--rust);
+}
+.prose a {
+  color: var(--rust-hot);
+  border-bottom: 1px dotted var(--rust-deep);
+}
+.prose a:hover {
+  border-bottom-color: var(--rust-hot);
+}
+.prose code {
+  background: var(--bg-void);
+  border: 1px solid var(--line);
+  padding: 1px 5px;
+  border-radius: var(--r-sm);
+  font-size: 0.9em;
+  color: inherit;
+}
+.prose .ent-info code {
+  background: rgba(92, 141, 222, 0.12);
+  border-color: rgba(92, 141, 222, 0.35);
+}
+.prose .ent-danger code {
+  background: rgba(232, 134, 74, 0.14);
+  border-color: rgba(232, 134, 74, 0.38);
+}
+.prose pre {
+  background: var(--bg-void);
+  border-left: 2px solid var(--rust);
+  padding: 10px 14px;
+  overflow-x: auto;
+  font-size: 0.9em;
+  color: var(--text-soft);
+  margin: 0.8em 0;
+}
+.prose pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+}
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.8em 0;
+  font-size: 13px;
+}
+.prose th,
+.prose td {
+  padding: 6px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+.prose th {
+  color: var(--line-on);
+  font-weight: 600;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--line-on);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+.prose tr:hover td {
+  background: var(--bg-panel);
+}
+.prose blockquote {
+  border-left: 3px solid var(--line-on);
+  padding: 0.6em 1em;
+  margin: 0.8em 0;
+  color: var(--text-soft);
+  background: var(--bg-panel);
+}
+.prose hr {
+  border: 0;
+  border-top: 1px dashed var(--line);
+  margin: 1.6em 0;
+}
+.prose img:not(.chip img) {
+  display: block;
+  max-width: 100%;
+  margin: 12px 0;
+  border: 1px solid var(--line);
+  background: var(--bg-void);
+}
+.prose .shots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: flex-start;
+  margin: 6px 0 4px;
+}
+.prose .shots img {
+  display: block;
+  height: 120px;
+  width: auto;
+  margin: 0;
+  border: 1px solid var(--line-mid);
+  background: var(--bg-elev);
+  image-rendering: auto;
+  transition: border-color var(--t-fast);
+}
+.prose .shots img:hover {
+  border-color: var(--rust);
+}
+.prose video,
+.prose .intro-video {
+  display: block;
+  width: 100%;
+  max-width: 720px;
+  margin: 12px 0 20px;
+  border: 1px solid var(--line-on);
+  background: var(--bg-void);
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 1px 7px 1px 3px;
+  border: 1px solid var(--line-mid);
+  background: var(--bg-elev);
+  font-size: 13px;
+  vertical-align: middle;
+  color: var(--text);
+  transition: border-color var(--t-fast);
+}
+.chip:hover {
+  border-color: var(--rust);
+}
+.chip img {
+  width: auto;
+  height: 18px;
+  image-rendering: pixelated;
+}
