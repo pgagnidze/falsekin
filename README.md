@@ -18,9 +18,7 @@ npm run preview  # preview the production build
 
 ## Deploy
 
-Pushing to `main` triggers `.github/workflows/deploy.yml`, which builds and publishes to GitHub Pages.
-
-To deploy to a different base path, edit `base` in `vite.config.ts`. For a custom domain at the root, set `base: '/'`.
+Pushing to `main` triggers a Cloudflare Pages build and deploys to [falsekin.pages.dev](https://falsekin.pages.dev). No workflow file needed - Cloudflare Pages is connected directly to the repo.
 
 ## Content sources
 
